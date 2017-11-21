@@ -1,6 +1,8 @@
 import java.util.Date;
 import edu.ufl.digitalworlds.j4k.J4KSDK;
 import edu.ufl.digitalworlds.j4k.Skeleton;
+import javax.comm.*;
+import java.util.*;
 
 public class Robot extends J4KSDK {
     public final static int SPINE_BASE=0; 
@@ -33,7 +35,22 @@ public class Robot extends J4KSDK {
 	long time=0;
 	int realAngle = 0;
 	int oldAngle = 0;
-	
+	String PortName = "COM3";
+	Enumeration portIdentifiers = CommPortIdentifier.getPortIdentifiers();
+	CommPortIdentifier portId = null;
+	 while (portIdentifiers.hasMoreElements()){
+	     CommPortIdentifier pid = (CommPortIdentifier) portIdentifiers.nextElement();
+	     if(pid.getPortType() == CommPortIdentifier.PORT_SERIAL &&
+	        pid.getName().equals(PortName)){
+	         portId = pid;
+	         break;
+	     }
+	 }
+	 if(portId == null){
+	     System.err.println("Could not find serial port " + PortName);
+	     System.exit(1);
+	 }
+	 
 	@Override
 	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions, float[] orientations, byte[] joint_status){
 		float[] elbowPoint = new float[2];
