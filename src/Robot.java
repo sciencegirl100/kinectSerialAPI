@@ -34,6 +34,10 @@ public class Robot extends J4KSDK {
 	long time=0;
 	
 	@Override
+	
+	int realAngle = 0;
+	int oldAngle = 0;
+	
 	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions, float[] orientations, byte[] joint_status){
 		float[] elbowPoint = new float[2];
 		float[] wristPoint = new float[2];
@@ -53,13 +57,31 @@ public class Robot extends J4KSDK {
 		elbowPoint[1] = skeletons[1].get3DJointY(ELBOW_RIGHT);
 		wristPoint[0] = skeletons[1].get3DJointX(WRIST_RIGHT);
 		wristPoint[1] = skeletons[1].get3DJointY(WRIST_RIGHT);
+		
 		angle = (float)Math.atan((elbowPoint[1] - wristPoint[1])/(elbowPoint[0] - wristPoint[0]));
-		System.out.println("ANGLE Skele1: " + (angle/1.5)*100);
-		// Sleep for 20 seconds.
-		try {Thread.sleep(2000);} catch (InterruptedException e) {}
-		// float[] orientations = skeletons[0].getJointOrientations();
-		// System.out.println(positions[ELBOW_RIGHT]);
-		// System.out.println(orientations[ELBOW_RIGHT]);
+		
+		realAngle = (int)((angle/1.5)*100);
+		
+		int difference = realAngle - oldAngle;
+				
+		if((difference > 5) || (difference < -5))
+		{
+			int moveMotorThisWay;
+			int moveMotorThisManyDegrees;
+			
+			oldAngle = realAngle;
+			if (difference > 0)
+			{
+				moveMotorThisWay = 1;
+				moveMotorThisManyDegrees = difference;
+			}
+			else
+			{
+				moveMotorThisWay = 0;
+				moveMotorThisManyDegrees = difference*-1;
+			}
+			System.out.println(moveMotorThisWay + "," + moveMotorThisManyDegrees);
+		}
 	}
 
 	@Override
