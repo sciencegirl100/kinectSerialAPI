@@ -1,9 +1,8 @@
 import java.util.Date;
-
 import edu.ufl.digitalworlds.j4k.J4KSDK;
 import edu.ufl.digitalworlds.j4k.Skeleton;
+
 public class Robot extends J4KSDK {
-    /*The following constant values enumerate the joints in the skeleton.*/ 
     public final static int SPINE_BASE=0; 
     public final static int SPINE_MID=1; 
     public final static int NECK=2; 
@@ -32,12 +31,10 @@ public class Robot extends J4KSDK {
     public final static int JOINT_COUNT=25; 
 	int counter=0;
 	long time=0;
-	
-	@Override
-	
 	int realAngle = 0;
 	int oldAngle = 0;
 	
+	@Override
 	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions, float[] orientations, byte[] joint_status){
 		float[] elbowPoint = new float[2];
 		float[] wristPoint = new float[2];
@@ -57,30 +54,21 @@ public class Robot extends J4KSDK {
 		elbowPoint[1] = skeletons[1].get3DJointY(ELBOW_RIGHT);
 		wristPoint[0] = skeletons[1].get3DJointX(WRIST_RIGHT);
 		wristPoint[1] = skeletons[1].get3DJointY(WRIST_RIGHT);
-		
 		angle = (float)Math.atan((elbowPoint[1] - wristPoint[1])/(elbowPoint[0] - wristPoint[0]));
-		
 		realAngle = (int)((angle/1.5)*100);
-		
 		int difference = realAngle - oldAngle;
-				
-		if((difference > 5) || (difference < -5))
-		{
+		if((difference > 5) || (difference < -5)){
 			int moveMotorThisWay;
 			int moveMotorThisManyDegrees;
-			
 			oldAngle = realAngle;
-			if (difference > 0)
-			{
+			if (difference > 0){
 				moveMotorThisWay = 1;
 				moveMotorThisManyDegrees = difference;
-			}
-			else
-			{
+			}else{
 				moveMotorThisWay = 0;
 				moveMotorThisManyDegrees = difference*-1;
 			}
-			System.out.println(moveMotorThisWay + "," + moveMotorThisManyDegrees);
+			System.out.println(moveMotorThisWay + " " + moveMotorThisManyDegrees);
 		}
 	}
 
@@ -106,11 +94,8 @@ public class Robot extends J4KSDK {
 		System.out.println("This program will run for about 20 seconds.");
 		Robot kinect=new Robot();
 		kinect.start(J4KSDK.SKELETON);
-		//Sleep for 20 seconds.
 		try {Thread.sleep(20000);} catch (InterruptedException e) {}
 		kinect.stop();		
 		System.out.println("FPS: "+kinect.counter*1000.0/(new Date().getTime()-kinect.time));
-	}
-
-	
+	}	
 }
