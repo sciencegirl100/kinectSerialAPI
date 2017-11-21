@@ -69,6 +69,7 @@ public class Robot extends J4KSDK {
 				moveMotorThisManyDegrees = difference*-1;
 			}
 			System.out.println(moveMotorThisWay + " " + moveMotorThisManyDegrees);
+			
 		}
 	}
 
