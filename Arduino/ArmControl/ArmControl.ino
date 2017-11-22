@@ -9,7 +9,7 @@ int ServoMax = 180;
 int ServoPin = 2;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   disp.init();
   disp.backlight();
   axis.attach(ServoPin);
@@ -42,7 +42,7 @@ void loop() {
       disp.print("Reset Servo");
       Serial.println("Reset Servo Position");
       axis.write(0);
-      
+      Position=0;
     }else{
       disp.setCursor(0,2);
       disp.print("Serial data invalid");
@@ -53,5 +53,4 @@ void loop() {
     disp.print(Status);
     Serial.println(Status);
   }
-  delay(10);
 }
