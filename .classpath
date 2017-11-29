@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-<<<<<<< Updated upstream
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="kinectSerialAPI/libs/gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="kinectSerialAPI/libs/jogl-all.jar"/>
-	<classpathentry kind="lib" path="kinectSerialAPI/libs/ufdw.jar"/>
-	<classpathentry kind="lib" path="kinectSerialAPI/libs/jssc.jar"/>
-=======
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -17,6 +9,5 @@
 	<classpathentry kind="lib" path="C:/Users/admin/Documents/kinectSerialAPI/libs/jogl-all.jar"/>
 	<classpathentry kind="lib" path="C:/Users/admin/Documents/kinectSerialAPI/libs/ufdw.jar"/>
 	<classpathentry kind="lib" path="C:/Users/admin/Documents/kinectSerialAPI/libs/jssc.jar"/>
->>>>>>> Stashed changes
 	<classpathentry kind="output" path="bin"/>
 </classpath>
