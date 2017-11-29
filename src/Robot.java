@@ -1,7 +1,7 @@
 import java.util.Date;
 import edu.ufl.digitalworlds.j4k.J4KSDK;
 import edu.ufl.digitalworlds.j4k.Skeleton;
-import java.util.*;
+import jssc.*;
 
 public class Robot extends J4KSDK {
     public final static int SPINE_BASE=0; 
@@ -36,7 +36,7 @@ public class Robot extends J4KSDK {
 	int oldAngle = 0;
 	
 	
-	serialPort = new SerialPort("COM1");
+	serialPort = new SerialPort("COM3");
 	try {
 	    serialPort.openPort();
 
@@ -50,7 +50,7 @@ public class Robot extends J4KSDK {
 
 	    serialPort.addEventListener(new PortReader(), SerialPort.MASK_RXCHAR);
 
-	    serialPort.writeString("3");
+	    serialPort.writeString("3", "US-ASCII");
 	}
 	
 	
@@ -88,9 +88,9 @@ public class Robot extends J4KSDK {
 				moveMotorThisWay = 0;
 				moveMotorThisManyDegrees = difference*-1;
 			}
-			System.out.println(moveMotorThisWay + " " + moveMotorThisManyDegrees);
+			System.out.println(moveMotorThisWay + " " + moveMotorThisManyDegrees));
 			
-			serialPort.writeString(moveMotorThisWay + "" + moveMotorThisManyDegrees);
+			serialPort.writeString(moveMotorThisWay + "" + moveMotorThisManyDegrees , "US-ASCII");
 			
 		}
 	}
