@@ -34,7 +34,26 @@ public class Robot extends J4KSDK {
 	long time=0;
 	int realAngle = 0;
 	int oldAngle = 0;
-	 
+	
+	
+	serialPort = new SerialPort("COM1");
+	try {
+	    serialPort.openPort();
+
+	    serialPort.setParams(SerialPort.BAUDRATE_115200,
+	                         SerialPort.DATABITS_8,
+	                         SerialPort.STOPBITS_1,
+	                         SerialPort.PARITY_NONE);
+
+	    serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | 
+	                                  SerialPort.FLOWCONTROL_RTSCTS_OUT);
+
+	    serialPort.addEventListener(new PortReader(), SerialPort.MASK_RXCHAR);
+
+	    serialPort.writeString("3");
+	}
+	
+	
 	@Override
 	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions, float[] orientations, byte[] joint_status){
 		float[] elbowPoint = new float[2];
@@ -70,6 +89,8 @@ public class Robot extends J4KSDK {
 				moveMotorThisManyDegrees = difference*-1;
 			}
 			System.out.println(moveMotorThisWay + " " + moveMotorThisManyDegrees);
+			
+			serialPort.writeString(moveMotorThisWay + "" + moveMotorThisManyDegrees);
 			
 		}
 	}
