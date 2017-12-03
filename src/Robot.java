@@ -44,38 +44,25 @@ public class Robot extends J4KSDK {
 		System.out.println("A new skeleton frame was received.");
 		Skeleton[] skeletons = new Skeleton[getSkeletonCountLimit()];
 		skeletons = getSkeletons(); 
-		System.out.println("X: " + skeletons[1].get3DJointX(ELBOW_RIGHT) + " Y: " + skeletons[1].get3DJointY(ELBOW_RIGHT));
-		System.out.println("X: " + skeletons[0].get3DJointX(WRIST_RIGHT) + " Y: " + skeletons[0].get3DJointY(WRIST_RIGHT));
+		//System.out.println("X: " + skeletons[0].get3DJointX(ELBOW_RIGHT) + " Y: " + skeletons[0].get3DJointY(ELBOW_RIGHT));
+		//System.out.println("X: " + skeletons[0].get3DJointX(WRIST_RIGHT) + " Y: " + skeletons[0].get3DJointY(WRIST_RIGHT));
 		elbowPoint[0] = skeletons[0].get3DJointX(ELBOW_RIGHT);
 		elbowPoint[1] = skeletons[0].get3DJointY(ELBOW_RIGHT);
 		wristPoint[0] = skeletons[0].get3DJointX(WRIST_RIGHT);
 		wristPoint[1] = skeletons[0].get3DJointY(WRIST_RIGHT);
 		angle = (float)Math.atan((elbowPoint[1] - wristPoint[1])/(elbowPoint[0] - wristPoint[0]));
 		System.out.println("ANGLE Skele0: " + (angle/1.5)*100);
-		elbowPoint[0] = skeletons[1].get3DJointX(ELBOW_RIGHT);
-		elbowPoint[1] = skeletons[1].get3DJointY(ELBOW_RIGHT);
-		wristPoint[0] = skeletons[1].get3DJointX(WRIST_RIGHT);
-		wristPoint[1] = skeletons[1].get3DJointY(WRIST_RIGHT);
-		angle = (float)Math.atan((elbowPoint[1] - wristPoint[1])/(elbowPoint[0] - wristPoint[0]));
-		
-		realAngle = (int)(((angle/1.5)*100)+90); //this goes from 0 to 180
-		
-		System.out.println("\t" + realAngle);
-		
-		try {
-			serialPort.writeString((char)realAngle + "\n" , "US-ASCII");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SerialPortException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		realAngle = (int)((angle/1.5)*100)+90; //this goes from 0 to 180
+		realAngle-=15;
+		System.out.println("\t" + (realAngle) + "\t" + (angle/1.5)*100);
+		if (realAngle >= 0 && realAngle <= 179) {
+			try {
+				serialPort.writeString((char)realAngle + "");
+			} catch (SerialPortException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-	}
-
-	@Override
-	public void onColorFrameEvent(byte[] color_frame) {
-		System.out.println("A new color frame was received.");
 	}
 	
 	@Override
@@ -102,19 +89,28 @@ public class Robot extends J4KSDK {
 		    serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | 
 		                                  SerialPort.FLOWCONTROL_RTSCTS_OUT);
 		    System.out.println("Serial Open");
-		    serialPort.writeString((char)3 + " \n", "US-ASCII");
+		    serialPort.writeString("\n", "US-ASCII");
+		    System.out.println("Wrote Serial");
 		} catch (SerialPortException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("ERR");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println("ERR");
 		}
 		System.out.println("This program will run for about 20 seconds.");
 		Robot kinect=new Robot();
 		kinect.start(J4KSDK.SKELETON);
-		try {Thread.sleep(20000);} catch (InterruptedException e) {}
+		try {Thread.sleep(200000);} catch (InterruptedException e) {}
 		kinect.stop();		
 		System.out.println("FPS: "+kinect.counter*1000.0/(new Date().getTime()-kinect.time));
+	}
+
+	@Override
+	public void onColorFrameEvent(byte[] arg0) {
+		// TODO Auto-generated method stub
+		
 	}	
 }

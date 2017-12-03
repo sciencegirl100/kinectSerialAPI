@@ -6,9 +6,9 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/admin/Documents/kinectSerialAPI/libs/gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="C:/Users/admin/Documents/kinectSerialAPI/libs/jogl-all.jar"/>
-	<classpathentry kind="lib" path="C:/Users/admin/Documents/kinectSerialAPI/libs/jssc.jar"/>
-	<classpathentry kind="lib" path="C:/Users/admin/Documents/kinectSerialAPI/libs/ufdw.jar"/>
+	<classpathentry kind="lib" path="libs/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="libs/jogl-all.jar"/>
+	<classpathentry kind="lib" path="libs/jssc.jar"/>
+	<classpathentry kind="lib" path="libs/ufdw.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
