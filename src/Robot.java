@@ -45,7 +45,7 @@ public class Robot extends J4KSDK {
 		System.out.println("A new skeleton frame was received.");
 		Skeleton[] skeletons = new Skeleton[getSkeletonCountLimit()];
 		skeletons = getSkeletons(); 
-		System.out.println("X: " + skeletons[0].get3DJointX(ELBOW_RIGHT) + " Y: " + skeletons[0].get3DJointY(ELBOW_RIGHT));
+		System.out.println("X: " + skeletons[1].get3DJointX(ELBOW_RIGHT) + " Y: " + skeletons[1].get3DJointY(ELBOW_RIGHT));
 		System.out.println("X: " + skeletons[0].get3DJointX(WRIST_RIGHT) + " Y: " + skeletons[0].get3DJointY(WRIST_RIGHT));
 		elbowPoint[0] = skeletons[0].get3DJointX(ELBOW_RIGHT);
 		elbowPoint[1] = skeletons[0].get3DJointY(ELBOW_RIGHT);
@@ -73,7 +73,7 @@ public class Robot extends J4KSDK {
 			}
 			System.out.println(moveMotorThisWay + " " + moveMotorThisManyDegrees);
 			try {
-				serialPort.writeString(moveMotorThisWay + "" + moveMotorThisManyDegrees , "US-ASCII");
+				serialPort.writeString((char)moveMotorThisWay + "" + (char)moveMotorThisManyDegrees + "\n" , "US-ASCII");
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -114,7 +114,7 @@ public class Robot extends J4KSDK {
 		    serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | 
 		                                  SerialPort.FLOWCONTROL_RTSCTS_OUT);
 		    System.out.println("Serial Open");
-		    serialPort.writeString("3", "US-ASCII");
+		    serialPort.writeString((char)3 + " \n", "US-ASCII");
 		} catch (SerialPortException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
