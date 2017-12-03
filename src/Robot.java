@@ -1,3 +1,4 @@
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import edu.ufl.digitalworlds.j4k.J4KSDK;
 import edu.ufl.digitalworlds.j4k.Skeleton;
@@ -34,25 +35,7 @@ public class Robot extends J4KSDK {
 	long time=0;
 	int realAngle = 0;
 	int oldAngle = 0;
-	
-	
-	serialPort = new SerialPort("COM3");
-	try {
-	    serialPort.openPort();
-
-	    serialPort.setParams(SerialPort.BAUDRATE_115200,
-	                         SerialPort.DATABITS_8,
-	                         SerialPort.STOPBITS_1,
-	                         SerialPort.PARITY_NONE);
-
-	    serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | 
-	                                  SerialPort.FLOWCONTROL_RTSCTS_OUT);
-
-	    serialPort.addEventListener(new PortReader(), SerialPort.MASK_RXCHAR);
-
-	    serialPort.writeString("3", "US-ASCII");
-	}
-	
+	public static SerialPort serialPort = new SerialPort("COM3");
 	
 	@Override
 	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions, float[] orientations, byte[] joint_status){
@@ -88,9 +71,16 @@ public class Robot extends J4KSDK {
 				moveMotorThisWay = 0;
 				moveMotorThisManyDegrees = difference*-1;
 			}
-			System.out.println(moveMotorThisWay + " " + moveMotorThisManyDegrees));
-			
-			serialPort.writeString(moveMotorThisWay + "" + moveMotorThisManyDegrees , "US-ASCII");
+			System.out.println(moveMotorThisWay + " " + moveMotorThisManyDegrees);
+			try {
+				serialPort.writeString(moveMotorThisWay + "" + moveMotorThisManyDegrees , "US-ASCII");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SerialPortException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 	}
@@ -114,6 +104,23 @@ public class Robot extends J4KSDK {
 			System.out.println("WARNING: You are running a 32bit version of Java.");
 			System.out.println("This may reduce significantly the performance of this application.");
 			System.out.println("It is strongly adviced to exit this program and install a 64bit version of Java.\n");
+		}
+		try {
+		    serialPort.openPort();
+		    serialPort.setParams(SerialPort.BAUDRATE_115200,
+		                         SerialPort.DATABITS_8,
+		                         SerialPort.STOPBITS_1,
+		                         SerialPort.PARITY_NONE);
+		    serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | 
+		                                  SerialPort.FLOWCONTROL_RTSCTS_OUT);
+		    System.out.println("Serial Open");
+		    serialPort.writeString("3", "US-ASCII");
+		} catch (SerialPortException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		System.out.println("This program will run for about 20 seconds.");
 		Robot kinect=new Robot();
