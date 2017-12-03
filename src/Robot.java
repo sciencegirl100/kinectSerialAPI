@@ -33,9 +33,8 @@ public class Robot extends J4KSDK {
     public final static int JOINT_COUNT=25; 
 	int counter=0;
 	long time=0;
-	int realAngle = 0;
-	int oldAngle = 0;
 	public static SerialPort serialPort = new SerialPort("COM3");
+	int realAngle = 0;
 	
 	@Override
 	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions, float[] orientations, byte[] joint_status){
@@ -58,30 +57,19 @@ public class Robot extends J4KSDK {
 		wristPoint[0] = skeletons[1].get3DJointX(WRIST_RIGHT);
 		wristPoint[1] = skeletons[1].get3DJointY(WRIST_RIGHT);
 		angle = (float)Math.atan((elbowPoint[1] - wristPoint[1])/(elbowPoint[0] - wristPoint[0]));
-		realAngle = (int)((angle/1.5)*100);
-		int difference = realAngle - oldAngle;
-		if((difference > 5) || (difference < -5)){
-			int moveMotorThisWay;
-			int moveMotorThisManyDegrees;
-			oldAngle = realAngle;
-			if (difference > 0){
-				moveMotorThisWay = 1;
-				moveMotorThisManyDegrees = difference;
-			}else{
-				moveMotorThisWay = 0;
-				moveMotorThisManyDegrees = difference*-1;
-			}
-			System.out.println(moveMotorThisWay + " " + moveMotorThisManyDegrees);
-			try {
-				serialPort.writeString((char)moveMotorThisWay + "" + (char)moveMotorThisManyDegrees + "\n" , "US-ASCII");
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SerialPortException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+		
+		realAngle = (int)(((angle/1.5)*100)+90); //this goes from 0 to 180
+		
+		System.out.println("\t" + realAngle);
+		
+		try {
+			serialPort.writeString((char)realAngle + "\n" , "US-ASCII");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SerialPortException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
