@@ -1,12 +1,8 @@
 #include <Servo.h>
 
 Servo axis;
-int Position = 0;
-int Angle = 0;
-int Direction = 0;
-int ServoMax = 180;
+char Angle = 'a';
 int ServoPin = 2;
-byte readMe[1] = {0};
 
 void setup() {
   Serial.begin(115200);
@@ -15,18 +11,19 @@ void setup() {
 
 void loop() {
   if (Serial.available() > 0){
-    Serial.readBytes(readMe, 1);
-    Angle = (int)readMe[1];
-    while(Serial.read() != 13);
-    if (Angle >= 0 && Angle <= 180){
-      axis.write(Angle);
-      Serial.println("Changed angle to " + Angle);
+    Angle = Serial.read();
+    if (Angle == 'a'){
+      axis.write(15);
+    }else if (Angle == 'b'){
+      axis.write(60);
+    }else if (Angle == 'c'){
+      axis.write(100);
+    }else if (Angle == 'd'){
+      axis.write(160);
     }else{
       Serial.println("Serial data not valid.");
-      Serial.println(Direction);
       Serial.println(Angle);
     }
-    String Status = "Current Angle: " + (String)Position;
-    Serial.println(Status);
+    delay(50);
   }
 }
