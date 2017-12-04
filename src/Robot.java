@@ -53,7 +53,8 @@ public class Robot extends J4KSDK {
 		angle = (float)Math.atan((elbowPoint[1] - wristPoint[1])/(elbowPoint[0] - wristPoint[0]));
 		System.out.println("ANGLE Skele0: " + (angle/1.5)*100);
 		realAngle = (int)((angle/1.5)*100)+90; //this goes from 0 to 180
-		//System.out.println("\t" + (realAngle) + "\t" + (angle/1.5)*100);
+		System.out.println("ELBOW_X " + elbowPoint[0] + " ELBOW Y " + elbowPoint[1]);
+		System.out.println("Wrist_X " + wristPoint[0] + " WRIST Y " + wristPoint[1]);
 		
 		if (realAngle > 135)
 		{
