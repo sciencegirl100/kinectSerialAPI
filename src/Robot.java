@@ -53,8 +53,57 @@ public class Robot extends J4KSDK {
 		angle = (float)Math.atan((elbowPoint[1] - wristPoint[1])/(elbowPoint[0] - wristPoint[0]));
 		System.out.println("ANGLE Skele0: " + (angle/1.5)*100);
 		realAngle = (int)((angle/1.5)*100)+90; //this goes from 0 to 180
-		realAngle-=15;
-		System.out.println("\t" + (realAngle) + "\t" + (angle/1.5)*100);
+		//System.out.println("\t" + (realAngle) + "\t" + (angle/1.5)*100);
+		
+		if (realAngle > 135)
+		{
+			try {
+				serialPort.writeString("d", "US-ASCII");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SerialPortException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (realAngle > 90)
+		{
+			try {
+				serialPort.writeString("c", "US-ASCII");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SerialPortException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (realAngle > 45)
+		{
+			try {
+				serialPort.writeString("b", "US-ASCII");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SerialPortException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (realAngle > 0)
+		{
+			try {
+				serialPort.writeString("a", "US-ASCII");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SerialPortException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		/*
 		if (realAngle >= 0 && realAngle <= 179) {
 			try {
 				serialPort.writeString((char)realAngle + "");
@@ -62,7 +111,8 @@ public class Robot extends J4KSDK {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+			
+		*/
 	}
 	
 	@Override
