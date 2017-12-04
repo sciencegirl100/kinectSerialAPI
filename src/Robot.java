@@ -35,6 +35,7 @@ public class Robot extends J4KSDK {
 	long time=0;
 	public static SerialPort serialPort = new SerialPort("COM3");
 	int realAngle = 0;
+	int skelNum= 1;
 	
 	@Override
 	public void onSkeletonFrameEvent(boolean[] skeleton_tracked, float[] positions, float[] orientations, byte[] joint_status){
@@ -46,10 +47,10 @@ public class Robot extends J4KSDK {
 		skeletons = getSkeletons(); 
 		//System.out.println("X: " + skeletons[0].get3DJointX(ELBOW_RIGHT) + " Y: " + skeletons[0].get3DJointY(ELBOW_RIGHT));
 		//System.out.println("X: " + skeletons[0].get3DJointX(WRIST_RIGHT) + " Y: " + skeletons[0].get3DJointY(WRIST_RIGHT));
-		elbowPoint[0] = skeletons[0].get3DJointX(ELBOW_RIGHT);
-		elbowPoint[1] = skeletons[0].get3DJointY(ELBOW_RIGHT);
-		wristPoint[0] = skeletons[0].get3DJointX(WRIST_RIGHT);
-		wristPoint[1] = skeletons[0].get3DJointY(WRIST_RIGHT);
+		elbowPoint[0] = skeletons[skelNum].get3DJointX(ELBOW_RIGHT);
+		elbowPoint[1] = skeletons[skelNum].get3DJointY(ELBOW_RIGHT);
+		wristPoint[0] = skeletons[skelNum].get3DJointX(WRIST_RIGHT);
+		wristPoint[1] = skeletons[skelNum].get3DJointY(WRIST_RIGHT);
 		angle = (float)Math.atan((elbowPoint[1] - wristPoint[1])/(elbowPoint[0] - wristPoint[0]));
 		System.out.println("ANGLE Skele0: " + (angle/1.5)*100);
 		realAngle = (int)((angle/1.5)*100)+90; //this goes from 0 to 180
@@ -154,7 +155,7 @@ public class Robot extends J4KSDK {
 		System.out.println("This program will run for about 20 seconds.");
 		Robot kinect=new Robot();
 		kinect.start(J4KSDK.SKELETON);
-		try {Thread.sleep(200000);} catch (InterruptedException e) {}
+		try {Thread.sleep(2000000);} catch (InterruptedException e) {}
 		kinect.stop();		
 		System.out.println("FPS: "+kinect.counter*1000.0/(new Date().getTime()-kinect.time));
 	}
