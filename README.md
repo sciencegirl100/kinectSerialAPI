@@ -17,7 +17,7 @@ realAngle = (int)((angle/1.5)*100);
 - [JSSC](https://github.com/scream3r/java-simple-serial-connector/releases) - sending serial output to the motors
 
 ## About:
-Authors: Austin Monson, Ed Greene, and Anthony Catricala 
+Authors: Austin Monson, Elizabeth Cray, and Anthony Catricala 
 
 Made for SUNY Polytechnic Institute, CS490 - Portable NUI Development, taught by William "Amos" Confer.
 ## License:
